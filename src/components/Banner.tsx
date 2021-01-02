@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from "react";
 import axios from "../components/axios";
 import requests from "../components/request";
+import "../components/Banner.css";
 
-// interface Props {
-//   title: string;
-//   name: string;
-//   original_name: string;
-// }
+interface Imovie {
+  id: string;
+  title: string;
+  name: string;
+  original_name: string;
+  overview: string;
+  backdrop_path: boolean;
+}
 
-type Props = {
-  overview: boolean;
-};
 function Banner() {
-  const [movie, setMovie] = useState([]);
+  const [movie, setMovie] = useState<Imovie | null>();
 
   useEffect(() => {
     async function fetchData() {
@@ -26,7 +27,7 @@ function Banner() {
     }
     fetchData();
   }, []);
-  function truncate(str: string, n: number): any {
+  function truncate(str: any, n: number): any {
     return str?.length > n ? str.substr(0, n - 1) + "..." : str;
   }
   return (
@@ -34,9 +35,7 @@ function Banner() {
       className="banner"
       style={{
         backgroundSize: "cover",
-        backgroundImage: `url(
-            "https://image.tmdb.org/t/p/original/${movie?.backdrop_path}"
-            )`,
+        backgroundImage: `url("https://image.tmdb.org/t/p/original/${movie?.backdrop_path}")`,
         backgroundPosition: "center center",
       }}
     >
@@ -44,7 +43,6 @@ function Banner() {
         <h1 className="banner_title">
           {movie?.title || movie?.name || movie?.original_name}
         </h1>
-
         <div className="banner_buttons">
           <button className="banner_button">Play</button>
           <button className="banner_button">My List</button>
